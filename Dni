@@ -1,0 +1,43 @@
+package gimnasaplicacio;
+
+
+public class Dni {
+    
+    private String dni;
+    private int numero;
+    private char lletra;
+
+    public Dni(String dni, int numero, char lletra) {
+        this.dni = dni;
+        this.numero = numero;
+        this.lletra = lletra;
+    }
+
+    public Dni(String dni) {
+        this.dni = dni;
+    }
+    
+
+    public Dni() {
+    }
+
+   
+    
+    public boolean validarDni(String dni){
+    
+        if ( dni.length() != 9) return false;
+    
+       
+       return true;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+    
+    
+}
