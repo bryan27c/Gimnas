@@ -1,0 +1,27 @@
+package gimnasaplicacio;
+
+
+public class Telefon {
+
+    static boolean getTelefon(String next) {
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
+
+    static boolean setTelefon(String next) {
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
+    String Telefono;
+
+    public String getTelefono() {
+        return Telefono;
+    }
+
+    public Telefon(String Telefono) {
+        this.Telefono = Telefono;
+    }
+
+    public Telefon() {
+    }
+    
+    
+}
