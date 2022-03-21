@@ -1,0 +1,20 @@
+package gimnasaplicacio;
+
+
+public class CorreuElectronic {
+    private String email; 
+
+    public CorreuElectronic(String email) {
+        this.email = email;
+    }
+
+    public CorreuElectronic() {
+    }
+
+    public String getEmail() {
+        return email;
+    }
+    
+    
+    
+}
