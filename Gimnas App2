@@ -1,0 +1,169 @@
+package gimnasaplicacio;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Gimnas {
+    
+    String CIF;
+    Domicili domicili;
+    ArrayList<Client> clients;
+    ArrayList<Activitats> activitats;
+    ArrayList<Reserves> reserves;
+    
+    public Gimnas(){
+        this.clients = new ArrayList<>();
+        this.activitats = new ArrayList<>();
+        this.reserves = new ArrayList<>();
+    
+    }
+    
+    public void gestionarGimnas() throws SQLException{
+       
+        Scanner teclat = new Scanner(System.in);
+        boolean sortir = false;
+        do {
+            System.out.println("*****MENU GESTOR GIMNAS*****");
+            System.out.println("1. Gestionar Client");
+            System.out.println("2. Visualitzar les activitats mes reserva del dia");
+            System.out.println("3. Visualitzar historic les activitats mes reserva");
+            System.out.println("4. Sortir");
+            System.out.println("TRIA UNA OPCIÓ:");
+
+            int opcio = teclat.nextInt();
+
+            switch (opcio) {
+                case 1:
+                    GestionarClient();
+                    break;
+                case 2:
+                    //VisualitzarActivitatsMesReservadesdeldia();
+                    break;
+                case 3:
+                    //VisualitzarHistoricDeActivitatsMesReservades();
+                    break;
+                case 4:
+                    sortir = true;
+                    break;
+                default:
+                    System.out.println("\n" + opcio + " NO ÉS UNA OPCIÓ NO VÀLIDA");
+            }
+        } while (!sortir);
+        // desconnexioBD();
+    }
+        
+      private void GestionarClient() throws SQLException{
+
+          Scanner teclat = new Scanner(System.in);
+        boolean sortir = false;
+
+        do {
+            System.out.println("\n*****GESTIONAR CLIENT *****");
+
+            System.out.println("1. Consultat de tots els clients");
+            System.out.println("2. Consulta d'un client");
+            System.out.println("3. Alta d'un client");
+            System.out.println("4. Modificació d'un client");
+            System.out.println("5. Baixa d'un client");
+            System.out.println("6. Sortir");
+            System.out.println("TRIA UNA OPCIÓ:");
+
+            int opcio = teclat.nextInt();
+            teclat.nextLine();
+
+            switch (opcio) {
+                case 1:
+                    totsclients();
+                    break;
+                case 2:
+                    consultaclient();
+                    break;
+                case 3:
+                    altaclient();
+                    break;
+                case 4:
+                    modificaclient();
+                    break;
+                case 5:
+                    eliminaclient();
+                    break;
+                case 6:
+                    sortir = true;
+                    break;
+                default:
+                    System.out.println("\n" + opcio + " NO ÉS UNA OPCIÓ NO VÀLIDA");
+            }
+        } while (!sortir);
+    }   
+    
+       
+      
+      private void altaclient() throws SQLException{
+          Client c = new Client();
+          c.altaclient();
+          
+      
+      }
+      
+      private void totsclients() throws SQLException{
+          Client c = new Client();
+          c.llistarTotsclients();
+      
+      }
+      
+       private void consultaclient() throws SQLException{
+       
+    
+            Client c1 = new Client();
+            c1.consultaClient();
+
+
+       }
+       
+       
+       private void modificaclient() throws SQLException{
+           
+           Client c1 = new Client();
+           c1.modificaclient();
+       }
+       
+       private void eliminaclient() throws SQLException{
+       
+            Client c1 = new Client();
+            c1.eliminaclient();
+       }
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+    }
