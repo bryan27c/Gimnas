@@ -1,0 +1,324 @@
+package gimnasaplicacio;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
+
+
+public class Client {
+    private Dni dni;
+    private String nom;
+    private String cognom;
+    
+    private String compte_bancari;
+    private LocalDate dateNeixement;
+    private int edat;
+    private CorreuElectronic email;
+    
+    private Telefon telefon;
+    private CompteBancari CCC;
+    private String Gender;
+    private String fisic;
+    
+    private int numReserves;
+
+    public void setDni(Dni dni) {
+        this.dni = dni;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public void setCognom(String cognom) {
+        this.cognom = cognom;
+    }
+    
+    public void setCompte_bancari(String compte_bancari) {
+        this.compte_bancari = compte_bancari;
+    }
+
+    public void setDateNeixement(LocalDate dateNeixement) {
+        this.dateNeixement = dateNeixement;
+    }
+
+    public void setEdat(int edat) {
+        this.edat = edat;
+    }
+
+    public void setEmail(CorreuElectronic email) {
+        this.email = email;
+    }
+
+    public void setTelefon(Telefon telefon) {
+        this.telefon = telefon;
+    }
+
+    public void setCCC(CompteBancari CCC) {
+        this.CCC = CCC;
+    }
+
+    public void setNumReserves(int numReserves) {
+        this.numReserves = numReserves;
+    }
+
+    public void setGender(String Gender) {
+        this.Gender = Gender;
+    }
+
+    public void setFisic(String fisic) {
+        this.fisic = fisic;
+    }
+
+   
+    
+    
+    
+    
+    
+    
+    public void consultaClient() throws SQLException{
+        Scanner teclat = new Scanner(System.in);
+        Connection con =  ConnexioBDGimnas.getCon();
+        String consulta = "SELECT * FROM cliente WHERE DNI = ?";
+        PreparedStatement sentencia = con.prepareStatement(consulta);
+        System.out.println("Introdueix el DNI del client que vols consultar: ");
+        String dni = teclat.next();
+        sentencia.setString(1, dni);
+        ResultSet rs = sentencia.executeQuery(); 
+       
+        
+        System.out.println("*** CONSULTA CLIENT ***");
+        
+        
+        if (rs.next()){
+        
+            System.out.println("\n ** CONSULTA CLIENT **");
+            this.setDni(new Dni(rs.getString("DNI")));
+            this.setNom(rs.getString("NOM"));
+            this.setCognom(rs.getString("COGNOM"));
+            this.setEmail(new CorreuElectronic(rs.getString("EMAIL")));
+            this.setGender(rs.getString("GENDER"));
+            this.setDateNeixement(rs.getDate("NAIX").toLocalDate());
+            this.setCCC(new CompteBancari(rs.getString("BANCARI")));
+            this.setTelefon(new Telefon(rs.getString("MOVIL")));
+            this.setFisic(rs.getString("FISICO"));
+            
+            System.out.println(" Dni: " + dni + " Nom: " + nom + " Cognom: " + cognom + " Email: " + email.getEmail() + " Gender: " + Gender + " DataNeixement: " + dateNeixement + " CCC: " + CCC.getCcc() + " Telefon: " + telefon.getTelefono() + " Fisic: " + fisic);
+            
+         
+
+            
+           
+        }
+        sentencia.close();
+        rs.close();
+        con.close();
+    
+    }
+    
+   public void altaclient() throws SQLException {
+        Scanner teclat = new Scanner(System.in);
+        System.out.println("**Alta client**");
+
+        System.out.println("Dni: ");
+        String Dni = teclat.next();
+        
+
+        System.out.println("Nom: ");
+        String Nom = teclat.next();
+
+        System.out.println("Cognom: ");
+        String Cognom = teclat.next();
+
+        System.out.println("Gender: ");
+        String Gender = teclat.next();
+
+        System.out.println("Email: ");
+        String Email = teclat.next();
+        teclat.nextLine();
+
+        System.out.println("Naix: ");
+        String Naix = teclat.next();
+
+        System.out.println("Movil: ");
+        int Movil = teclat.nextInt();
+        teclat.nextLine();
+        
+        System.out.println("Bancari: ");
+        String Bancari = teclat.next();
+        teclat.nextLine();
+        
+        System.out.println("Fisico: ");
+        String Fisico = teclat.next();
+        teclat.nextLine();
+
+        String consulta = "INSERT INTO cliente (Dni, Nom, Cognom, Gender, Email, Naix, Movil, Bancari, Fisico) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        Connection con =  ConnexioBDGimnas.getCon();
+        PreparedStatement sentencia = con.prepareStatement(consulta);
+
+        sentencia.setString(1, Dni);
+        sentencia.setString(2, Nom);
+        sentencia.setString(3, Cognom);
+        sentencia.setString(4, Gender);
+        sentencia.setString(5, Email);
+        sentencia.setString(6, Naix);
+        sentencia.setInt(7, Movil);
+        sentencia.setString(8, Bancari);
+        sentencia.setString(9, Fisico);
+
+        if (sentencia.executeUpdate() != 0) {
+            System.out.println("Client donat d'alta: " + Nom);
+        } else {
+            System.out.println("***Error al donar d'alta el client " + Nom + "***");
+        }   
+        
+        
+    }
+                    
+   public void llistarTotsclients() throws SQLException {
+        // PREPAREM LA CONSULTA
+        String consulta = "SELECT * FROM cliente ORDER BY NOM";
+        
+        Connection con =  ConnexioBDGimnas.getCon();
+        PreparedStatement sentencia = con.prepareStatement(consulta);
+        
+        // LLANÇEM LA CONSULTA
+        ResultSet rs = sentencia.executeQuery();
+
+        System.out.println("Llista de tots els clients: ");
+
+        while (rs.next()) {
+            
+            this.setDni(new Dni(rs.getString("DNI")));
+            this.setNom(rs.getString("NOM"));
+            this.setCognom(rs.getString("COGNOM"));
+            this.setEmail(new CorreuElectronic(rs.getString("EMAIL")));
+            this.setGender(rs.getString("GENDER"));
+            this.setDateNeixement(rs.getDate("NAIX").toLocalDate());
+            this.setCCC(new CompteBancari(rs.getString("BANCARI")));
+            this.setTelefon(new Telefon(rs.getString("MOVIL")));
+            this.setFisic(rs.getString("FISICO"));
+            
+            System.out.println(" Dni: " + dni.getDni() + " Nom: " + nom + " Cognom: " + cognom + " Email: " + email.getEmail() + " Gender: " + Gender + " DataNeixement: " + dateNeixement + " CCC: " + CCC.getCcc() + " Telefon: " + telefon.getTelefono() + " Fisic: " + fisic);
+            
+
+        }
+
+    }
+           
+    static void modificaclient() throws SQLException {
+        Scanner teclat = new Scanner(System.in);
+        System.out.println("**MODIFICAR CLIENT**");
+
+       System.out.println("Dni: ");
+        String Dni = teclat.next();
+        
+
+        System.out.println("Nom: ");
+        String Nom = teclat.next();
+
+        System.out.println("Cognom: ");
+        String Cognom = teclat.next();
+
+        System.out.println("Gender: ");
+        String Gender = teclat.next();
+
+        System.out.println("Email: ");
+        String Email = teclat.next();
+        teclat.nextLine();
+
+        System.out.println("Naix: ");
+        String Naix = teclat.next();
+
+        System.out.println("Movil: ");
+        int Movil = teclat.nextInt();
+        teclat.nextLine();
+        
+        System.out.println("Bancari: ");
+        String Bancari = teclat.next();
+        teclat.nextLine();
+        
+        System.out.println("Fisico: ");
+        String Fisico = teclat.next();
+        teclat.nextLine();
+        
+        String modificar = "UPDATE client SET Nom = ?, Cognom= ?, Gender = ?, Email = ?, Naix = ?, Movil = ?, Bancari = ?, Fisico = ?, WHERE DNI = ?";
+        PreparedStatement sentencia = null;
+        
+
+        try {
+            
+            Connection con =  ConnexioBDGimnas.getCon();
+            sentencia = con.prepareStatement(modificar);
+            
+            
+            sentencia.setString(9, Dni);
+            
+            sentencia.setString(1, Nom);
+            
+            sentencia.setString(2, Cognom);
+            
+            sentencia.setString(3, Gender);
+            
+            sentencia.setString(4, Email);
+            
+            sentencia.setString(5, Naix);
+            
+            sentencia.setInt(6, Movil);
+            
+            sentencia.setString(7, Bancari);
+            
+            sentencia.setString(8, Fisico);
+            sentencia.executeUpdate();
+            
+            
+            
+            System.out.println("Client modificat: " + Nom);
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            System.out.println("**Hi ha hagut un error**");
+        } finally {
+            if (sentencia != null)
+                try {
+                    sentencia.close();
+                } catch (SQLException sqle) {
+                    sqle.printStackTrace();
+                }
+        }
+    }
+       
+      static void eliminaclient() throws SQLException {
+        Scanner teclat = new Scanner(System.in);
+        System.out.println("***Elimina client***");
+
+        System.out.println("Dni del client a eliminar: ");
+        String Dni = teclat.next();
+
+        String elimina = "DELETE FROM cliente WHERE Dni = ?";
+        PreparedStatement sentencia = null;
+
+        try {
+            sentencia = (PreparedStatement) ConnexioBDGimnas.getCon();
+            sentencia.setString(1, Dni);
+            sentencia.executeUpdate();
+            System.out.println("Client eliminat: " + Dni);
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            System.out.println("**Hi ha hagut un error**");
+        } finally {
+            if (sentencia != null)
+                try {
+                    sentencia.close();
+                } catch (SQLException sqle) {
+                    sqle.printStackTrace();
+                }
+        }
+
+    }
+}
