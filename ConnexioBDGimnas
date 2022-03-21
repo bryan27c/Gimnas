@@ -1,0 +1,50 @@
+//
+package gimnasaplicacio;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+
+public class  ConnexioBDGimnas {
+    private static final String servidor = "jdbc:mysql://localhost:3308/";
+    private static final String bbdd = "db_gym";
+    private static final String user = "root";
+    private static final String password = "";
+    private static Connection con;
+
+    public static Connection getCon() throws SQLException {
+        
+        con = DriverManager.getConnection(servidor + bbdd , user , password );
+        if (con== null){
+            System.out.println("Error amb la connexio");
+        }else{
+            System.out.println("Connexio realitzada amb exit");
+        }
+        
+        return con;
+    }
+    
+    
+    
+    
+   /* public static void connexioBD() throws SQLException {
+       
+        try {
+            Connection connexioBD = DriverManager.getConnection(servidor + bbdd, user, password);
+            System.out.println("Connexio amb exit");
+        } catch (SQLException ex) {
+            System.out.println("No s'ha pogut conectar");
+            ex.printStackTrace();
+        }
+
+    }*/
+
+    /*static PreparedStatement PreparedStatement(String consulta) {
+        throw new UnsupportedOperationException( ); 
+    }*/
+    
+    
+    
+}
